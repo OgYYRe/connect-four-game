@@ -2,19 +2,18 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import svgr from "vite-plugin-svgr";
 
-// https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [react(), svgr()],
-  base: import.meta.env.MODE === "production" ? "/connect-four-game/" : "/",
+  base: mode === "production" ? "/connect-four-game/" : "/",
   server: {
-    port: 5173, // Default port, change if needed
-    open: true, // Automatically opens the browser on start
+    port: 5173,
+    open: true,
   },
   build: {
-    outDir: "dist", // Default output directory for production builds
-    sourcemap: true, // Useful for debugging
+    outDir: "dist",
+    sourcemap: true,
   },
   esbuild: {
-    jsxInject: `import React from 'react'`, // Ensures React is available in JSX files (optional)
+    jsxInject: `import React from 'react'`,
   },
-});
+}));
