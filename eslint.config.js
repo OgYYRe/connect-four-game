@@ -1,6 +1,7 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
 import pluginReact from "eslint-plugin-react";
+import reactHooks from "eslint-plugin-react-hooks";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -8,20 +9,28 @@ export default [
     files: ["**/*.{js,mjs,cjs,jsx}"],
   },
   {
-    ignores: ["dist/**", "**/*.test.js"], // Ignore all files inside dist
+    ignores: ["dist/**", "**/*.test.js"],
   },
   {
     languageOptions: {
       globals: globals.browser,
     },
+    settings: {
+      react: {
+        version: "detect",
+      },
+    },
   },
   pluginJs.configs.recommended,
   pluginReact.configs.flat.recommended,
   {
-    // Disable the 'react/react-in-jsx-scope' rule for React 17+
+    plugins: {
+      "react-hooks": reactHooks,
+    },
     rules: {
-      "react/react-in-jsx-scope": "off", // Disable rule for React in scope
-      "react/prop-types": "off", // Optionally disable prop-types check if using TypeScript
+      "react/react-in-jsx-scope": "off",
+      "react/prop-types": "off",
+      "react-hooks/exhaustive-deps": "warn",
     },
   },
 ];
